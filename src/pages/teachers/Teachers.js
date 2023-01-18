@@ -12,6 +12,13 @@ const Teachers = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [getCourse, setGetCourse] = useState([]);
   const [images, setImages] = useState([]);
+  const [postTeacher, setPostTeacher] = useState({
+    _id: "",
+    firstName: "",
+    lastName: "",
+    cnic: "",
+    gender: "",
+  });
   const [putData, setPutData] = useState({
     teacher: "",
     course: "",
@@ -52,10 +59,10 @@ const Teachers = () => {
       .then((resp) => {
         console.log(resp?.data.results);
         return setPostTeacher({
-          firstName:resp.data.results.firstName,
+          firstName: resp.data.results.firstName,
           cnic: resp.data.results.cnic,
-          gender:resp.data.results.gender,
-          lastName:resp.data.results.lastName,
+          gender: resp.data.results.gender,
+          lastName: resp.data.results.lastName,
           _id: postTeacher._id,
         });
       });
@@ -225,9 +232,7 @@ const Teachers = () => {
                               />
                             </div>
                             <div className="mb-4">
-                              <label>Qualification
-
-                              </label>
+                              <label>Qualification</label>
                               <NewInput
                                 type="text"
                                 className="form-control"

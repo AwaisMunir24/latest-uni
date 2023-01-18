@@ -1,13 +1,14 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useContext, useEffect, useState } from "react";
 import Input from "../../components/input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import "./Login.css";
 import axios from "axios";
-const Login = ({role, setIsAuth}) => {
+import { RootContext } from "../../Routing/contextApi";
+const Login = ({ role, setIsAuth }) => {
   const navigate = useNavigate();
- 
+  const { user, setUser } = useContext(RootContext);
 
   // const [admin, setAdmin] = useState(adminList());
   const [login, setLogin] = useState({
@@ -36,11 +37,13 @@ const Login = ({role, setIsAuth}) => {
       .post("https://dark-gray-agouti-kit.cyclic.app/api/admin/login", data)
       .then((resp) => {
         console.log(resp.data);
-        if( resp.data.success ){
+        if (resp.data.success) {
           localStorage.setItem("login", JSON.stringify(resp.data.results));
-          setIsAuth && setIsAuth(true)
+          // login
+          setUser(resp.data.results);
+          setIsAuth && setIsAuth(true);
           navigate("/dashboard");
-        }else{
+        } else {
           toast.warning(`${resp.data.msg}`, {
             position: "top-center",
             autoClose: 2000,
@@ -49,7 +52,7 @@ const Login = ({role, setIsAuth}) => {
       })
       .catch((err) => console.log(err));
 
-      //
+    //
   };
 
   return (
@@ -61,7 +64,7 @@ const Login = ({role, setIsAuth}) => {
               <div className="row justify-content-center">
                 <div className="col-lg-12">
                   <div className="login_section">
-                    <h2>{ role ?? '' } Login</h2>
+                    <h2>{role ?? ""} Login</h2>
                     <Input
                       type="text"
                       placeholder="Enter Email"
@@ -91,7 +94,6 @@ const Login = ({role, setIsAuth}) => {
         </form>
       </section>
       <ToastContainer />
-      
     </>
   );
 };
