@@ -14,9 +14,9 @@ const StudentForm = ({ getStudentData }) => {
   const [studentData, setStudentData] = useState({
     studentName: "",
     father: "",
-    // cnic: "",
-    // address: "",
-    // age: "",
+    cnic: "",
+    address: "",
+    age: "",
     regId: "",
   });
 
@@ -65,9 +65,9 @@ const StudentForm = ({ getStudentData }) => {
     setStudentData({
       studentName: "",
       father: "",
-      // cnic: "",
-      // address: "",
-      // age: "",
+      cnic: "",
+      address: "",
+      age: "",
       regId: "",
     })
   };
@@ -93,7 +93,7 @@ const StudentForm = ({ getStudentData }) => {
             </div>
 
             <div className="mb-3">
-              {/* <NewInput
+               <NewInput
                 type="number"
                 className="form-control"
                 labelName="CNIC"
@@ -101,22 +101,17 @@ const StudentForm = ({ getStudentData }) => {
                 onChange={(e) => handleInput(e)}
                 name="cnic"
               />
-              {message &&
-                cnic(
-                  <p className="m-0 data studentidd">
-                    Please Enter CNIC Number
-                  </p>
-                )} */}
+            
             </div>
             <div className="mb-3">
-              {/* <NewInput
+              <NewInput
                 type="text"
                 className="form-control"
                 labelName="Address"
                 value={studentData.address}
                 onChange={(e) => handleInput(e)}
                 name="address"
-              /> */}
+              />
             </div>
             <div className="mb-3">
               <NewInput
@@ -141,12 +136,14 @@ const StudentForm = ({ getStudentData }) => {
               />
             </div>
             <div className="mb-3">
-              {/* <NewInput
-                type="file"
+              <NewInput
+                type="number"
                 className="form-control"
-                onChange={handleFileSelect}
-                name="files"
-              /> */}
+                labelName="Age"
+                value={studentData.age}
+                onChange={(e) => handleInput(e)}
+                name="age"
+              />
             </div>
             <div className="mb-3">
               {/* <NewInput

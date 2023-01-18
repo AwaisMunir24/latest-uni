@@ -41,9 +41,9 @@ const MainPage = ({ setLoggedIn, isAdmin }) => {
         <Routes>
           {isAuthenticated ? (
             <>
+            <Route path="dashboard" element={<Dashboard />} />
               <Route path="students" element={<Students />} />
               <Route path="teachers" element={<Teachers />} />
-              <Route path="dashboard" element={<Dashboard />} />
               <Route path="course" element={<Course />} />
               <Route path="report" element={<Report />} />
               <Route

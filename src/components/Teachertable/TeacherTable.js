@@ -10,14 +10,19 @@ const TeacherTable = (props) => {
     course,
     passcode,
     pressDlt,
-    blocked,
+    putData,
     _handleUpdate,
     idx,
     courseList,
     _handleCourseSelection,
     _handleCourseOption,
-  } = props;
+    _handleStatus,
 
+    getCourseData,
+    isBlocked,
+  } = props;
+  console.log(putData !== undefined&& putData._id, "testing===================");
+  console.log(teacherprofile,"tea he")
   return (
     <>
       <tr>
@@ -25,7 +30,7 @@ const TeacherTable = (props) => {
         <td>
           <div>
             <img
-              src={"https://good-erin-ox-suit.cyclic.app/" + teacherprofile}
+              src={"https://dark-gray-agouti-kit.cyclic.app" + teacherprofile.url}
               alt="iamge"
               className="img-fluid"
             />
@@ -41,32 +46,43 @@ const TeacherTable = (props) => {
           <p className="m-0">{qualification}</p>
         </td>
         <td>
-          <select onClick={() => _handleCourseSelection(id)}>
-            <option>Plase Select Course </option>
-            {courseList?.map((e, idx) => (
-              <option onClick={() => _handleCourseOption(e._id,id)}>
-                {e.title}
-              </option>
-            ))}
+          <select
+            className="form-select form-select-lg mb-0 select_option_teacher"
+            aria-label="form-select-lg example"
+            onChange={(e) => _handleCourseSelection(e, id)}
+            name="course"
+          >
+            <option value="select" >Please Select Course</option>
+            {courseList?.map((e, idx) => {
+              return (
+                <option
+                  onClick={() => _handleCourseOption(e._id, id)}
+                  key={idx}
+                  value={e._id}
+                  selected={ putData !== undefined && (putData._id === e._id   ? true : false)}
+                >
+                  {e.title}
+                </option>
+              );
+            })}
           </select>
         </td>
         <td className="m-0">{passcode}</td>
 
         <td>
-          {" "}
+        
           <select
             className="form-select form-select-lg mb-0 select_option_teacher"
             aria-label=".form-select-lg example"
+            name="status"
+            onChange={(e) => _handleStatus(e, id)}
           >
-            {/* <option selected className="">
-              Select Status
-            </option> */}
-            {/* <option value="blocked">{blocked}</option> */}
-            {blocked ? (
-              <option value="blocked">Blocked</option>
-            ) : (
-              <option value="blocked">Un Blocked</option>
-            )}
+            <option value="false" selected={isBlocked ? false : true}>
+              Un Blocked
+            </option>
+            <option value="true" selected={isBlocked ? true : false}>
+              Blocked
+            </option>
           </select>
         </td>
         <td>

@@ -48,15 +48,15 @@
 }
 @media only screen and (max-width: 1400px) {
     .login {
-        padding: 175px 0px;
+        padding: 70px 0px;
     } 
     .login_section{
         width: 40%;
     }
 }
-@media only screen and (max-width: 1200px) {
+@media screen and (max-width: 1280px) {
     .login {
-        padding: 175px 0px;
+        padding: 50px 0px;
     } 
     .login_section{
         width: 50%;
@@ -64,6 +64,6 @@
 }
 @media only screen and (max-width: 1024px) {
     .login {
-        padding: 175px 0px;
+        padding: 50px 0px;
     }  
 }

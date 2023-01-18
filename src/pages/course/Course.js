@@ -13,8 +13,9 @@ const Course = () => {
     courseCode: "",
     creditHours: "",
     id: "",
+    subjectId:"",
   });
-  console.log(postCourse.id, "update id");
+  console.log(courselisting, "courses");
   function _handleCourseInput(e) {
     const newCoureData = { ...postCourse };
     newCoureData[e.target.name] = e.target.value;
@@ -237,26 +238,26 @@ const Course = () => {
                             <th>#</th>
                             <th>Course title</th>
                             <th>Course Code</th>
-                            <th>Subject Id</th>
+                            <th>Subject Code </th>
                             <th>Teacher</th>
                             <th colSpan={2}>Credit Hours</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {courselisting?.data?.map((e, idx) => (
-                            <CourseListing
+                          {courselisting?.data?.map((e, idx) => {
+                            return <CourseListing
                               key={e._id}
                               id={e._id}
                               idx={idx + 1}
                               coursetitle={e.title}
                               coursecode={e.courseCode}
-                              subjectcode={e.subjectId[e]}
-                              // teacher={e.teacher}
+                              subjectcode={e.subjectId.subCode}
+                              teacher={e.subjectId.name}
                               credithours={e.creditHours}
                               pressDltCourse={(id) => handleCourseDlt(id)}
                               _handleUpdate={(id) => _handleCourseUpdate(id)}
                             />
-                          ))}
+                          } )}
                         </tbody>
                       </table>
                     </div>

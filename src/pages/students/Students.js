@@ -9,63 +9,103 @@ import "./Students.css";
 import NewInput from "../../components/newInput/Newinput";
 const Students = () => {
   const [studentData, setStudentData] = useState({
+    id: "",
     studentName: "",
     father: "",
-    // cnic: "",
-    // address: "",
-    // age: "",
+    cnic: "",
+    address: "",
+    age: "",
     regId: "",
   });
   const [studentsRecord, setStudentsRecord] = useState([]);
   const [updating, setUpdating] = useState(false);
   const [editStudentForm, setStudentForm] = useState(false);
 
-
   console.log(studentsRecord.results, "students");
-  const getStudentData=()=>{
+  const getStudentData = () => {
     axios
-    .get("https://dark-gray-agouti-kit.cyclic.app/api/student")
-    .then((resp) => {
-      if (resp?.data?.results) {
-        setStudentsRecord(resp.data);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
+      .get("https://dark-gray-agouti-kit.cyclic.app/api/student")
+      .then((resp) => {
+        if (resp?.data?.results) {
+          setStudentsRecord(resp.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     getStudentData();
   }, []);
   const _handleDeleteStudent = (id) => {
     console.log(id, "get id for delete student");
-    axios.delete(`https://dark-gray-agouti-kit.cyclic.app/api/student/${id}`).then((resp)=>{
-      getStudentData();
-      return resp
-    }).catch((err)=>{console.log(err)})
-
+    axios
+      .delete(`https://dark-gray-agouti-kit.cyclic.app/api/student/${id}`)
+      .then((resp) => {
+        getStudentData();
+        return resp;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const _handleUpdateStudent = (id) => {
     console.log(id, "update student form ");
-        setStudentForm(true);
-        // axios
-        // .get(`https://dark-gray-agouti-kit.cyclic.app/api/student/${id}`)
-        // .then((resp) => {
-        //   console.log(resp.data, "data");
-        //   return setStudentData({
-         
-        //   });
-        // });
-     
+    setStudentForm(true);
+    axios
+      .get(`https://dark-gray-agouti-kit.cyclic.app/api/student/${id}`)
+      .then((resp) => {
+        console.log(resp.data, "data");
+        return setStudentData({
+          id: resp.data._id,
+          studentName: resp.data.firstName,
+          father: resp.data.lastName,
+          cnic: resp.data.cnic,
+          address: resp.data.city,
+          age: resp.data.age,
+        });
+      });
   };
-
-  const handleSubmitingStudentRecord=(e)=>{
+  var data = {
+    firstName: studentData.studentName,
+    lastName: studentData.father,
+    cnic: studentData.cnic,
+    city: studentData.address,
+    age: studentData.age,
+  };
+  const handleSubmitingStudentRecord = (e) => {
     e.preventDefault();
     setStudentForm(false);
-  }
-  const handleStudentTabs=()=>{
+  };
+  const saveStudentUpdate = (id) => {
+    console.log(id, "sud");
+    axios
+      .put(`https://dark-gray-agouti-kit.cyclic.app/api/student/${id}`, data)
+      .then((resp) => {
+        setStudentData(resp.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  const handleStudentTabs = () => {
     setStudentForm(false);
+  };
+  function handleInput(e) {
+    const newStudentData = { ...studentData };
+    newStudentData[e.target.name] = e.target.value;
+    setStudentData(newStudentData);
   }
+  const _handleStatusUpdate = (e, id) => {
+    // console.log(e, id, "student");
+    axios
+      .put(`https://dark-gray-agouti-kit.cyclic.app/api/student/block/${id}`, {
+        blocked: e.target.value,
+      })
+      .then((resp) => {
+        console.log(resp.data,"update student");
+        getStudentData();
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
@@ -118,7 +158,7 @@ const Students = () => {
                   role="tabpanel"
                   aria-labelledby="ex1-tab-1"
                 >
-                  <StudentForm  />
+                  <StudentForm />
                 </div>
                 <div
                   className="tab-pane fade"
@@ -139,8 +179,8 @@ const Students = () => {
                                 type="text"
                                 className="form-control"
                                 labelName="Student Name"
-                                // value={postCourse.name}
-                                // onChange={(e) => handleInput(e)}
+                                value={studentData.studentName}
+                                onChange={(e) => handleInput(e)}
                                 name="studentName"
                               />
                             </div>
@@ -150,24 +190,18 @@ const Students = () => {
                                 type="number"
                                 className="form-control"
                                 labelName="CNIC"
-                                // value={postCourse.subCode}
-                                // onChange={(e) => handleInput(e)}
+                                value={studentData.cnic}
+                                onChange={(e) => handleInput(e)}
                                 name="cnic"
                               />
-                              {/* {message &&
-                                cnic(
-                                  <p className="m-0 data studentidd">
-                                    Please Enter CNIC Number
-                                  </p>
-                                )} */}
                             </div>
                             <div className="mb-3">
                               <NewInput
                                 type="text"
                                 className="form-control"
                                 labelName="Address"
-                                // value={studentData.address}
-                                // onChange={(e) => handleInput(e)}
+                                value={studentData.address}
+                                onChange={(e) => handleInput(e)}
                                 name="address"
                               />
                             </div>
@@ -176,8 +210,8 @@ const Students = () => {
                                 type="text"
                                 className="form-control"
                                 labelName="Student Id"
-                                // value={studentData.regId}
-                                // onChange={(e) => handleInput(e)}
+                                value={studentData.regId}
+                                onChange={(e) => handleInput(e)}
                                 name="regId"
                               />
                             </div>
@@ -188,26 +222,26 @@ const Students = () => {
                                 type="text"
                                 className="form-control"
                                 labelName="Father's Name"
-                                // value={studentData.father}
-                                // onChange={(e) => handleInput(e)}
+                                value={studentData.father}
+                                onChange={(e) => handleInput(e)}
                                 name="father"
                               />
                             </div>
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
                               <NewInput
                                 type="file"
                                 // className="form-control"
                                 // onChange={handleFileSelect}
                                 name="files"
                               />
-                            </div>
+                            </div> */}
                             <div className="mb-3">
                               <NewInput
                                 type="number"
                                 className="form-control"
                                 labelName="Age"
-                                // value={studentData.age}
-                                // onChange={(e) => handleInput(e)}
+                                value={studentData.age}
+                                onChange={(e) => handleInput(e)}
                                 name="age"
                               />
                             </div>
@@ -223,7 +257,10 @@ const Students = () => {
                           </div>
                         </div>
                         {updating ? (
-                          <button className="buttonload student_button">
+                          <button
+                            className="buttonload student_button"
+                            onClick={() => saveStudentUpdate(studentData.id)}
+                          >
                             <i className="fa fa-spinner fa-spin"></i>Save
                             Student Record
                           </button>
@@ -237,43 +274,53 @@ const Students = () => {
                   ) : (
                     <>
                       <div className="col-lg-12">
-                    <table className="table ">
-                      <thead>
-                        <tr>
-                          <th>id</th>
-                          <th>Student Name</th>
-                          <th>Father Name</th>
-                          <th>CNIC</th>
-                          <th>Address</th>
-                          <th>Age</th>
-                          <th>Student Id</th>
-                          <th colSpan={2}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {studentsRecord?.results?.map((e, idx) => (
-                          <Users
-                            key={idx}
-                            id={e._id}
-                            idx={idx+1}
-                         
-                            studentName={e.firstName}
-                            fatherName={e.lastName}
-                            cnic={e.cnic}
-                            address={e.address}
-                            age={e.age}
-                            studentId={e.regNumber}
-                            password={e.password}
-                            pressDltStudent={(id) => _handleDeleteStudent(id)}
-                            _handleUpdateStudent={(id) => _handleUpdateStudent(id)}
-                          />
-                        ))}
-                      </tbody>
-                    </table>
-                  </div></>
+                        <table className="table ">
+                          <thead>
+                            <tr>
+                              <th>id</th>
+                              <th>Student Name</th>
+                              <th>Father Name</th>
+                              <th>CNIC</th>
+                              <th>Address</th>
+                              <th>Age</th>
+                              <th>Student Id</th>
+                              <th colSpan={2}>Status</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {studentsRecord?.results?.map((e, idx) => {
+                              // console.log(e)
+                              return (
+                                <Users
+                                  key={idx}
+                                  id={e._id}
+                                  idx={idx + 1}
+                                  studentName={e.firstName}
+                                  fatherName={e.lastName}
+                                  cnic={e.cnic}
+                                  address={e.city}
+                                  age={e.age}
+                                  isBlocked={e.blocked}
+                                  // studentId={e.regNumber}
+                                  password={e.password}
+                                  pressDltStudent={(id) =>
+                                    _handleDeleteStudent(id)
+                                  }
+                                  _handleUpdateStudent={(id) =>
+                                    _handleUpdateStudent(id)
+                                  }
+                                  _handleStatus={(e, id) =>
+                                    _handleStatusUpdate(e, id)
+                                  }
+                                />
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
                   )}
-
-                
                 </div>
               </div>
               {/* <!-- Tabs content --> */}

@@ -10,6 +10,7 @@ const CourseForm = ({ getApiCourse }) => {
     name: "",
     subCode: "",
     creditHours: "",
+    subjectId:"",
   });
 
   function _handleCourseInput(e) {
@@ -24,6 +25,7 @@ const CourseForm = ({ getApiCourse }) => {
     courseCode: postCourse.subCode,
     creditHours: postCourse.creditHours,
     subjectId: "635a7dc11eaef4f90524f618",
+    qrCodeId: "sjkhdfkjsdhfs",
   };
 
   const handleCourse = (e) => {

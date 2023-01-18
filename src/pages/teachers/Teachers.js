@@ -7,10 +7,15 @@ import "./Teachers.css";
 const Teachers = () => {
   const [teacherLists, setTeacherLists] = useState([]);
   const [editForm, setEditForm] = useState(false);
-  const [cechkTrue, setcechkTrue] = useState(false);
+  const [isBlock, setIsBlocked] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const[getCourse,setGetCourse]=useState([]);
+  const [getCourse, setGetCourse] = useState([]);
   const [images, setImages] = useState([]);
+  const [putData,setPutData]=useState({
+    teacher:"",
+    course:"",
+  })
+  // console.log(isBlock,"block")
   const addTeacher = (data) => {};
 
   const handleDelete = (id) => {
@@ -23,7 +28,6 @@ const Teachers = () => {
       })
       .catch((err) => console.log(err));
   };
-
   const getTeacherData = () => {
     axios
       .get("https://dark-gray-agouti-kit.cyclic.app/api/teacher")
@@ -41,10 +45,10 @@ const Teachers = () => {
     console.log(id, "id get by user");
     setEditForm(true);
   };
-  console.log(teacherLists.results);
+  // console.log(teacherLists.results);
   useEffect(() => {
     getTeacherData();
-   }, []);
+  }, []);
   // function handleInput(e) {
   //   const newTeaching = { ...postTeacher };
   //   newTeaching[e.target.name] = e.target.value;
@@ -63,26 +67,62 @@ const Teachers = () => {
   const handleTeacher = () => {
     setEditForm(false);
   };
-  const _handleCourseIdGet=(id)=>{
-    console.log(id,"course Id");
+  var data={
 
   }
-  const _handleCourseOPt=(course,teacher)=>{
-    console.log(course,teacher,"id Clg");
+var data={
+  teacher:putData.teacher,
+  course:putData.course,
+}
 
+  const _handleCourseIdGet=(e,id)=>{
+    console.log(e.target.value,id,"course Id");
+    axios.put("https://dark-gray-agouti-kit.cyclic.app/api/teacher/assign-course",data).then((resp)=>{
+      console.log(resp.data);
+      // setPutData(resp.data.data)
+
+    
+    }).catch((err)=>{console.log(err)})
+
+
+
+   
+
+
+
+  }
+  const _handleCourseOPt=(e,id)=>{
+    console.log(e,id,"id Clg");
+
+  }
+  const _handleStatusUpdate = (e, id) => {
+    axios
+      .patch(
+        `https://dark-gray-agouti-kit.cyclic.app/api/teacher/block-unblock/${id}`,
+        {
+          blocked: e.target.value,
+        }
+      )
+      .then((resp) => {
+        // console.log(resp?.data.data);
+        getTeacherData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getCourseData=()=>{
+    axios.get("https://dark-gray-agouti-kit.cyclic.app/api/course").then((resp)=>{
+      // console.log(resp?.data.data)
+      setGetCourse(resp?.data.data)
+    }).catch((err)=>console.log(err))
   }
   useEffect(() => {
-    axios.get("https://dark-gray-agouti-kit.cyclic.app/api/course").then((resp)=>{
-      if (resp?.data?.success) {
-      console.log(resp.data.data,"respdat")
-        setGetCourse(resp.data.data);
-      }
-    }).catch((err)=>console.log(err)) 
+    getCourseData();
+   }, []);
+  // console.log(getCourse, "get course");
 
 
-    _handleCourseIdGet()
-  }, [])
-  
   return (
     <>
       <>
@@ -134,7 +174,7 @@ const Teachers = () => {
                   role="tabpanel"
                   aria-labelledby="ex1-tab-1"
                 >
-                  <TeacherForm onSubmitTeacher={addTeacher}  />
+                  <TeacherForm onSubmitTeacher={addTeacher} />
                 </div>
                 <div
                   className="tab-pane fade"
@@ -250,25 +290,32 @@ const Teachers = () => {
                         </thead>
 
                         <tbody>
-                          {teacherLists?.results?.map((e, idx) => (
-                            <TeacherTable
-                              
-                              key={idx}
-                              id={e._id}
-                              idx={idx + 1}
-                              teacherprofile={e.image}
-                              teachername={e.firstName}
-                              cnic={e.cnic}
-                              qualification={e.gender}
-                              course={e.lastName}
-                              blocked={e.blocked}
-                              courseList={getCourse}
-                              pressDlt={(id) => handleDelete(id)}
-                              _handleUpdate={(id) => handleUpdateTeacher(id)}
-                              _handleCourseSelection={(id)=>_handleCourseIdGet(id)}
-                              _handleCourseOption={_handleCourseOPt}
-                            />
-                          ))}
+                          {teacherLists?.results?.map((e, idx) => {
+                            
+                            return (
+                              <TeacherTable
+                                key={idx}
+                                id={e._id}
+                                idx={idx + 1}
+                                teacherprofile={e.image}
+                                teachername={e.firstName}
+                                cnic={e.cnic}
+                                qualification={e.gender}
+                                course={e.lastName}
+                                isBlocked={e.blocked}
+                                courseList={getCourse}
+                                putData={e.courses[0]}
+                                pressDlt={(id) => handleDelete(id)}
+                                _handleUpdate={(id) => handleUpdateTeacher(id)}
+                                _handleCourseSelection={(e,id)=>_handleCourseIdGet(e,id)
+                                }
+                                _handleCourseOption={_handleCourseOPt}
+                                _handleStatus={(e, id) =>
+                                  _handleStatusUpdate(e, id)
+                                }
+                              />
+                            );
+                          })}
                         </tbody>
                       </table>
                     </div>
