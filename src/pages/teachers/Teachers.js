@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import NewInput from "../../components/newInput/Newinput";
 import TeacherForm from "../../components/teachers/TeacherForm";
 import TeacherTable from "../../components/Teachertable/TeacherTable";
+import { BASE_URL } from "../../controller/config";
 import "./Teachers.css";
 const Teachers = () => {
   const [teacherLists, setTeacherLists] = useState([]);
@@ -11,26 +12,27 @@ const Teachers = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [getCourse, setGetCourse] = useState([]);
   const [images, setImages] = useState([]);
-  const [putData,setPutData]=useState({
-    teacher:"",
-    course:"",
-  })
+  const [putData, setPutData] = useState({
+    teacher: "",
+    course: "",
+  });
   // console.log(isBlock,"block")
   const addTeacher = (data) => {};
 
   const handleDelete = (id) => {
     console.log(id, "id get for teacher delete");
     axios
-      .delete(`https://dark-gray-agouti-kit.cyclic.app/api/teacher/${id}`)
+      .delete(`${BASE_URL}/api/teacher/${id}`)
       .then((resp) => {
         getTeacherData();
         return resp;
       })
       .catch((err) => console.log(err));
   };
+  // handleDelete ----- End -------------------------------------------------------
   const getTeacherData = () => {
     axios
-      .get("https://dark-gray-agouti-kit.cyclic.app/api/teacher")
+      .get(`${BASE_URL}/api/teacher`)
       .then((resp) => {
         if (resp?.data?.success) {
           setTeacherLists(resp.data);
@@ -40,11 +42,14 @@ const Teachers = () => {
         console.log(err);
       });
   };
+  // getTeacherData ----- End -------------------------------------------------------
 
   const handleUpdateTeacher = (id) => {
     console.log(id, "id get by user");
     setEditForm(true);
   };
+  // handleUpdateTeacher ----- End -------------------------------------------------------
+
   // console.log(teacherLists.results);
   useEffect(() => {
     getTeacherData();
@@ -67,42 +72,35 @@ const Teachers = () => {
   const handleTeacher = () => {
     setEditForm(false);
   };
-  var data={
+  var data = {};
+  var data = {
+    teacher: putData.teacher,
+    course: putData.course,
+  };
 
-  }
-var data={
-  teacher:putData.teacher,
-  course:putData.course,
-}
-
-  const _handleCourseIdGet=(e,id)=>{
-    console.log(e.target.value,id,"course Id");
-    axios.put("https://dark-gray-agouti-kit.cyclic.app/api/teacher/assign-course",data).then((resp)=>{
-      console.log(resp.data);
-      // setPutData(resp.data.data)
-
-    
-    }).catch((err)=>{console.log(err)})
-
-
-
-   
-
-
-
-  }
-  const _handleCourseOPt=(e,id)=>{
-    console.log(e,id,"id Clg");
-
-  }
+  const _handleCourseIdGet = (course, teacher) => {
+    console.log("Course: ", course, " teacher: ", teacher);
+    axios
+      .put(`${BASE_URL}/api/teacher/assign-course`, {
+        teacher,
+        course, // course value
+      })
+      .then((resp) => {
+        console.log(resp.data);
+        // setPutData(resp.data.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const _handleCourseOPt = (e, id) => {
+    console.log(e, id, "id Clg");
+  };
   const _handleStatusUpdate = (e, id) => {
     axios
-      .patch(
-        `https://dark-gray-agouti-kit.cyclic.app/api/teacher/block-unblock/${id}`,
-        {
-          blocked: e.target.value,
-        }
-      )
+      .patch(`${BASE_URL}/api/teacher/block-unblock/${id}`, {
+        blocked: e.target.value,
+      })
       .then((resp) => {
         // console.log(resp?.data.data);
         getTeacherData();
@@ -111,17 +109,19 @@ var data={
         console.log(err);
       });
   };
-  const getCourseData=()=>{
-    axios.get("https://dark-gray-agouti-kit.cyclic.app/api/course").then((resp)=>{
-      // console.log(resp?.data.data)
-      setGetCourse(resp?.data.data)
-    }).catch((err)=>console.log(err))
-  }
+  const getCourseData = () => {
+    axios
+      .get(`${BASE_URL}/api/course`)
+      .then((resp) => {
+        // console.log(resp?.data.data)
+        setGetCourse(resp?.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     getCourseData();
-   }, []);
+  }, []);
   // console.log(getCourse, "get course");
-
 
   return (
     <>
@@ -291,7 +291,6 @@ var data={
 
                         <tbody>
                           {teacherLists?.results?.map((e, idx) => {
-                            
                             return (
                               <TeacherTable
                                 key={idx}
@@ -307,7 +306,8 @@ var data={
                                 putData={e.courses[0]}
                                 pressDlt={(id) => handleDelete(id)}
                                 _handleUpdate={(id) => handleUpdateTeacher(id)}
-                                _handleCourseSelection={(e,id)=>_handleCourseIdGet(e,id)
+                                _handleCourseSelection={(e, id) =>
+                                  _handleCourseIdGet(e, id)
                                 }
                                 _handleCourseOption={_handleCourseOPt}
                                 _handleStatus={(e, id) =>
