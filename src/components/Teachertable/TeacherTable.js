@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BASE_URL } from "../../controller/config";
 const TeacherTable = (props) => {
   const {
     id,
@@ -21,8 +22,6 @@ const TeacherTable = (props) => {
     getCourseData,
     isBlocked,
   } = props;
-  // console.log(putData !== undefined&& putData._id, "testing===================");
-  // console.log(teacherprofile,"tea he")
   return (
     <>
       <tr>
@@ -30,8 +29,9 @@ const TeacherTable = (props) => {
         <td>
           <div>
             <img
-              src={"https://dark-gray-agouti-kit.cyclic.app" + teacherprofile.url}
-              alt="iamge"
+              src={`${BASE_URL}${teacherprofile.url}`}
+              alt="image"
+              style={{ height: 50, width: 50, borderRadius: 50 }}
               className="img-fluid"
             />
           </div>
@@ -49,17 +49,20 @@ const TeacherTable = (props) => {
           <select
             className="form-select form-select-lg mb-0 select_option_teacher"
             aria-label="form-select-lg example"
-            onChange={(e) => _handleCourseSelection(e, id)}
+            onChange={(e) => _handleCourseSelection(e.target.value, id)}
             name="course"
           >
-            <option value="select" >Please Select Course</option>
+            <option value="select">Please Select Course</option>
             {courseList?.map((e, idx) => {
               return (
                 <option
-                  onClick={() => _handleCourseOption(e._id, id)}
+                  // onClick={() => _handleCourseOption(e._id, id)}
                   key={idx}
                   value={e._id}
-                  selected={ putData !== undefined && (putData._id === e._id   ? true : false)}
+                  selected={
+                    putData !== undefined &&
+                    (putData._id === e._id ? true : false)
+                  }
                 >
                   {e.title}
                 </option>
@@ -70,7 +73,6 @@ const TeacherTable = (props) => {
         <td className="m-0">{passcode}</td>
 
         <td>
-        
           <select
             className="form-select form-select-lg mb-0 select_option_teacher"
             aria-label=".form-select-lg example"

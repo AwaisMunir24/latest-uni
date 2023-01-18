@@ -101,7 +101,7 @@ const Students = () => {
         blocked: e.target.value,
       })
       .then((resp) => {
-        console.log(resp.data,"update student");
+        console.log(resp.data, "update student");
         getStudentData();
       })
       .catch((err) => console.log(err));
@@ -299,10 +299,10 @@ const Students = () => {
                                   studentName={e.firstName}
                                   fatherName={e.lastName}
                                   cnic={e.cnic}
-                                  address={e.city}
-                                  age={e.age}
+                                  address={e.address}
+                                  age={e.dob}
                                   isBlocked={e.blocked}
-                                  // studentId={e.regNumber}
+                                  studentId={e.regNumber}
                                   password={e.password}
                                   pressDltStudent={(id) =>
                                     _handleDeleteStudent(id)
