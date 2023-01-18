@@ -21,8 +21,8 @@ const TeacherTable = (props) => {
     getCourseData,
     isBlocked,
   } = props;
-  console.log(putData !== undefined&& putData._id, "testing===================");
-  console.log(teacherprofile,"tea he")
+  // console.log(putData !== undefined&& putData._id, "testing===================");
+  // console.log(teacherprofile,"tea he")
   return (
     <>
       <tr>

@@ -1,21 +1,22 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import "./Report.css";
 import ReportList from "../../components/reportsList/ReportList";
 import {useNavigate} from 'react-router-dom' 
+import axios from "axios";
 const Report = () => {
     const navigate=useNavigate()
-    const[reports,setreports]=useState([
-        {
-            id:"1",
-            courseTitle:"Data Logic & design",
-            coursecode:"cs402",
-            subjectcode:'cs301',
-            credithour:"3"
-        }
-    ])
+    const[reports,setreports]=useState([ ])
     const _handleAttendance=()=>{
         navigate('/courseattendance')
     }
+useEffect(() => {
+axios.get("https://dark-gray-agouti-kit.cyclic.app/api/course").then((resp)=>{
+  console.log(resp.data.data);
+  setreports(resp.data.data )
+})
+}, [])
+
+
     return (
     <>
       <section>
@@ -44,10 +45,11 @@ const Report = () => {
                         <ReportList
                         key={idx}
                         id={e.id}
-                        courseTitle={e.courseTitle}
-                        coursecode={e.coursecode}
-                        subjectcode={e.subjectcode}
-                        credithour={e.credithour}
+                        idx={idx+1}
+                        courseTitle={e.title}
+                        coursecode={e.courseCode}
+                        subjectcode={e.subjectId.name}
+                        credithour={e.creditHours}
                         handleCourseAttendance={_handleAttendance}
                         />
                         )

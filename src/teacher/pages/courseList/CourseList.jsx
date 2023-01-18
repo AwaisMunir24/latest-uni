@@ -1,18 +1,35 @@
 import axios from "axios";
 import React from "react";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import AbsCourseList from "../../Components/absCourseList/AbsCourseList";
 
 const CourseList = () => {
-  const [courseList, setCourseList] = useState([ ]);
+  const [courseList, setCourseList] = useState([]);
+
+  const getCoourseData = () => {
+    axios
+      .get("https://dark-gray-agouti-kit.cyclic.app/api/course")
+      .then((resp) => {
+        console.log(resp.data.data);
+        setCourseList(resp.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const _handleAttandanceToogle=(e,id)=>{
+    console.log(e.target.value,id,"for toogle class");
+      axios.put(`https://dark-gray-agouti-kit.cyclic.app/api/course/attendence/${id}`,{
+        attendenceMarkingOpen:e.target.value
+      }).then((resp)=>{
+        console.log(resp.data);
+      }) 
+
+  }
+
   useEffect(() => {
-    axios.get("https://dark-gray-agouti-kit.cyclic.app/api/teacher").then((resp)=>{
-      if (resp?.data?.success) {
-        setCourseList(resp.data);
-      }
-    }).catch((err)=>console.log(err))
-  }, [])
-  
+    getCoourseData();
+  }, []);
+
   return (
     <>
       <section>
@@ -29,19 +46,21 @@ const CourseList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {courseList?results?.map((e, idx) => (
+                  {courseList.map((e, idx) => (
                     <>
                       <AbsCourseList
                         idx={idx + 1}
                         key={idx}
-                        id={e.id}
-                        courseListName={e.}
-                        subjectListName={e.}
-                        open={e.open}
-                        close={e.close}
+                        id={e._id}
+                        courseListName={e.title}
+                        subjectListName={e.subjectId.name}
+                        attenddanceTog={e.attendenceMarkingOpen}
+                        _handleAttandanceUpdate={(e, id) =>
+                          _handleAttandanceToogle(e, id)
+                        }
                       />
                     </>
-                  ))} */}
+                  ))}
                 </tbody>
               </table>
             </div>

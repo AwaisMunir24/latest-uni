@@ -11,10 +11,18 @@ const Teachers = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [getCourse, setGetCourse] = useState([]);
   const [images, setImages] = useState([]);
-  const [putData,setPutData]=useState({
-    teacher:"",
-    course:"",
-  })
+  const [postTeacher, setPostTeacher] = useState({
+    _id: "",
+    firstName: "",
+    lastName: "",
+    cnic: "",
+    gender: "",
+  });
+  // console.log(postTeacher,"postTeacher data");
+  const [putData, setPutData] = useState({
+    teacher: "",
+    course: "",
+  });
   // console.log(isBlock,"block")
   const addTeacher = (data) => {};
 
@@ -44,17 +52,29 @@ const Teachers = () => {
   const handleUpdateTeacher = (id) => {
     console.log(id, "id get by user");
     setEditForm(true);
+    axios
+      .get(`https://dark-gray-agouti-kit.cyclic.app/api/teacher/${id}`)
+      .then((resp) => {
+        console.log(resp?.data.results);
+        return setPostTeacher({
+          firstName:resp.data.results.firstName,
+          cnic: resp.data.results.cnic,
+          gender:resp.data.results.gender,
+          lastName:resp.data.results.lastName,
+          _id: postTeacher._id,
+        });
+      });
   };
   // console.log(teacherLists.results);
   useEffect(() => {
     getTeacherData();
   }, []);
-  // function handleInput(e) {
-  //   const newTeaching = { ...postTeacher };
-  //   newTeaching[e.target.name] = e.target.value;
-  //   setPostTeacher(newTeaching);
-  //   console.log(e.target.name, e.target.value);
-  // }
+  function handleInput(e) {
+    const newTeaching = { ...postTeacher };
+    newTeaching[e.target.name] = e.target.value;
+    setPostTeacher(newTeaching);
+    console.log(e.target.name, e.target.value);
+  }
   const handleFileSelect = (e) => {
     let arr = Object.values(e.target.files);
     console.log(arr[0]);
@@ -67,34 +87,30 @@ const Teachers = () => {
   const handleTeacher = () => {
     setEditForm(false);
   };
-  var data={
+  var data = {};
+  var data = {
+    teacher: putData.teacher,
+    course: putData.course,
+  };
 
-  }
-var data={
-  teacher:putData.teacher,
-  course:putData.course,
-}
-
-  const _handleCourseIdGet=(e,id)=>{
-    console.log(e.target.value,id,"course Id");
-    axios.put("https://dark-gray-agouti-kit.cyclic.app/api/teacher/assign-course",data).then((resp)=>{
-      console.log(resp.data);
-      // setPutData(resp.data.data)
-
-    
-    }).catch((err)=>{console.log(err)})
-
-
-
-   
-
-
-
-  }
-  const _handleCourseOPt=(e,id)=>{
-    console.log(e,id,"id Clg");
-
-  }
+  const _handleCourseIdGet = (e, id) => {
+    console.log(e.target.value, id, "course Id");
+    axios
+      .put(
+        "https://dark-gray-agouti-kit.cyclic.app/api/teacher/assign-course",
+        data
+      )
+      .then((resp) => {
+        console.log(resp.data);
+        // setPutData(resp.data.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const _handleCourseOPt = (e, id) => {
+    console.log(e, id, "id Clg");
+  };
   const _handleStatusUpdate = (e, id) => {
     axios
       .patch(
@@ -111,17 +127,19 @@ var data={
         console.log(err);
       });
   };
-  const getCourseData=()=>{
-    axios.get("https://dark-gray-agouti-kit.cyclic.app/api/course").then((resp)=>{
-      // console.log(resp?.data.data)
-      setGetCourse(resp?.data.data)
-    }).catch((err)=>console.log(err))
-  }
+  const getCourseData = () => {
+    axios
+      .get("https://dark-gray-agouti-kit.cyclic.app/api/course")
+      .then((resp) => {
+        // console.log(resp?.data.data)
+        setGetCourse(resp?.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     getCourseData();
-   }, []);
+  }, []);
   // console.log(getCourse, "get course");
-
 
   return (
     <>
@@ -193,70 +211,46 @@ var data={
                         <div className="row justify-content-center mt-3">
                           <div className="col-lg-5 col-md-5 col-sm-12">
                             <div className="mb-4">
+                              <label>First Name</label>
                               <NewInput
                                 type="text"
                                 name="firstName"
                                 className="form-control"
-                                labelName="firstName"
-                                // value={postTeacher.firstName}
-                                // onChange={(e) => handleInput(e)}
+                                value={postTeacher?.firstName}
+                                onChange={(e) => handleInput(e)}
                               />
                             </div>
                             <div className="mb-4">
+                              <label>Cnic</label>
                               <NewInput
                                 type="number"
                                 className="form-control"
-                                labelName="CNIC"
-                                // value={postTeacher.cnic}
-                                // onChange={(e) => handleInput(e)}
+                                value={postTeacher?.cnic}
+                                onChange={(e) => handleInput(e)}
                                 name="cnic"
                               />
                             </div>
                             <div className="mb-4">
+                              <label>Qualification
+                                
+                              </label>
                               <NewInput
                                 type="text"
                                 className="form-control"
-                                labelName="Last Qualification"
-                                // value={postTeacher.lastName}
-                                // onChange={(e) => handleInput(e)}
+                                value={postTeacher?.lastName}
+                                onChange={(e) => handleInput(e)}
                                 name="lastName"
                               />
                             </div>
                             <div className="mb-4">
+                              <label> Gender</label>
                               <NewInput
                                 type="text"
                                 className="form-control"
-                                labelName="Course"
-                                // value={postTeacher.gender}
-                                // onChange={(e) => handleInput(e)}
+                                value={postTeacher?.gender}
+                                onChange={(e) => handleInput(e)}
                                 name="gender"
                               />
-                            </div>
-                            <div className="mb-4">
-                              <NewInput
-                                type="file"
-                                className="form-control"
-                                onChange={handleFileSelect}
-                                name="files"
-                              />
-                            </div>
-                            <div className="mb-4">
-                              {/* <NewInput
-                            type="text"
-                            className="form-control"
-                            labelName="Teacher Reg Id"
-                            value={postTeacher._id}
-                         
-                          /> */}
-                            </div>
-                            <div className="mb-5">
-                              {/* <NewInput
-                            type="text"
-                            className="form-control"
-                            labelName="Passcode"
-                            value={passcode}
-                            onChange={(e) => handleInput(e)}
-                          /> */}
                             </div>
                           </div>
                         </div>
@@ -291,7 +285,6 @@ var data={
 
                         <tbody>
                           {teacherLists?.results?.map((e, idx) => {
-                            
                             return (
                               <TeacherTable
                                 key={idx}
@@ -307,7 +300,8 @@ var data={
                                 putData={e.courses[0]}
                                 pressDlt={(id) => handleDelete(id)}
                                 _handleUpdate={(id) => handleUpdateTeacher(id)}
-                                _handleCourseSelection={(e,id)=>_handleCourseIdGet(e,id)
+                                _handleCourseSelection={(e, id) =>
+                                  _handleCourseIdGet(e, id)
                                 }
                                 _handleCourseOption={_handleCourseOPt}
                                 _handleStatus={(e, id) =>
