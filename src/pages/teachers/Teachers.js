@@ -12,6 +12,14 @@ const Teachers = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [getCourse, setGetCourse] = useState([]);
   const [images, setImages] = useState([]);
+  const [postTeacher, setPostTeacher] = useState({
+    id: "",
+    firstName: "",
+    lastName: "",
+    cnic: "",
+    gender: "",
+  });
+
   const [putData, setPutData] = useState({
     teacher: "",
     course: "",
@@ -52,11 +60,11 @@ const Teachers = () => {
       .then((resp) => {
         console.log(resp?.data.results);
         return setPostTeacher({
-          firstName:resp.data.results.firstName,
+          firstName: resp.data.results.firstName,
           cnic: resp.data.results.cnic,
-          gender:resp.data.results.gender,
-          lastName:resp.data.results.lastName,
-          _id: postTeacher._id,
+          gender: resp.data.results.gender,
+          lastName: resp.data.results.lastName,
+          id: resp.data.results._id,
         });
       });
   };
@@ -130,11 +138,26 @@ const Teachers = () => {
       })
       .catch((err) => console.log(err));
   };
+  var data={
+    firstName: postTeacher.firstName,
+    lastName: postTeacher.lastName,
+    cnic: postTeacher.cnic,
+    gender:postTeacher.gender
+  }
+  const _handleSaveTeacher = (id) => {
+    console.log(id,"update");
+    axios.put(`https://dark-gray-agouti-kit.cyclic.app/api/teacher/update/${id}`,data).then((resp)=>{
+      console.log(resp.data);
+      getTeacherData();
+    }).catch((err)=>console.log(err))
+  };
   useEffect(() => {
     getCourseData();
   }, []);
   // console.log(getCourse, "get course");
-
+const _handleFormTeacherSubmit=(e)=>{
+  e.preventDefault();
+}
   return (
     <>
       <>
@@ -203,6 +226,7 @@ const Teachers = () => {
                           </div>
                         </div>
                         <div className="row justify-content-center mt-3">
+                        <form onSubmit={_handleFormTeacherSubmit}>
                           <div className="col-lg-5 col-md-5 col-sm-12">
                             <div className="mb-4">
                               <label>First Name</label>
@@ -225,9 +249,7 @@ const Teachers = () => {
                               />
                             </div>
                             <div className="mb-4">
-                              <label>Qualification
-
-                              </label>
+                              <label>Qualification</label>
                               <NewInput
                                 type="text"
                                 className="form-control"
@@ -247,17 +269,14 @@ const Teachers = () => {
                               />
                             </div>
                           </div>
+                        </form>
                         </div>
-                        {isUpdating ? (
-                          <button className="buttonload teacher_button">
-                            <i className="fa fa-spinner fa-spin"></i>Saving
-                            Teacher Data
-                          </button>
-                        ) : (
-                          <button className="teacher_button">
-                            Save Teacher Data
-                          </button>
-                        )}
+                        <button
+                          className="teacher_button" type="submit"
+                          onClick={()=>_handleSaveTeacher(postTeacher.id)}
+                        >
+                          Save Teacher Data
+                        </button>
                       </form>
                     </>
                   ) : (

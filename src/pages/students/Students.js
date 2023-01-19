@@ -21,7 +21,7 @@ const Students = () => {
   const [updating, setUpdating] = useState(false);
   const [editStudentForm, setStudentForm] = useState(false);
 
-  console.log(studentsRecord.results, "students");
+  // console.log(studentsRecord.results, "students");
   const getStudentData = () => {
     axios
       .get("https://dark-gray-agouti-kit.cyclic.app/api/student")
@@ -55,14 +55,14 @@ const Students = () => {
     axios
       .get(`https://dark-gray-agouti-kit.cyclic.app/api/student/${id}`)
       .then((resp) => {
-        console.log(resp.data, "data");
+        // console.log(resp.data.results, "data");
         return setStudentData({
-          id: resp.data._id,
-          studentName: resp.data.firstName,
-          father: resp.data.lastName,
-          cnic: resp.data.cnic,
-          address: resp.data.city,
-          age: resp.data.age,
+          id: resp.data.results._id,
+          studentName: resp.data.results.firstName,
+          father: resp.data.results.lastName,
+          cnic: resp.data.results.cnic,
+          address: resp.data.results.address,
+          age: resp.data.results.dob,
         });
       });
   };
@@ -70,8 +70,8 @@ const Students = () => {
     firstName: studentData.studentName,
     lastName: studentData.father,
     cnic: studentData.cnic,
-    city: studentData.address,
-    age: studentData.age,
+    address: studentData.address,
+    dob: studentData.age,
   };
   const handleSubmitingStudentRecord = (e) => {
     e.preventDefault();
@@ -82,7 +82,9 @@ const Students = () => {
     axios
       .put(`https://dark-gray-agouti-kit.cyclic.app/api/student/${id}`, data)
       .then((resp) => {
-        setStudentData(resp.data);
+        console.log(resp.data.results);
+        // getStudentData();
+        // setStudentData(resp.data);
       })
       .catch((err) => console.log(err));
   };
@@ -173,12 +175,13 @@ const Students = () => {
                         className="text-center"
                       >
                         <div className="row mt-3 justify-content-center">
-                          <div className="col-lg-5 col-md-5 col-sm-12">
+                          <div className="col-lg-5 col-md-5 col-sm-12 text-start">
                             <div className="mb-3">
+                              <label>Student Name</label>
                               <NewInput
                                 type="text"
                                 className="form-control"
-                                labelName="Student Name"
+                                // labelName="Student Name"
                                 value={studentData.studentName}
                                 onChange={(e) => handleInput(e)}
                                 name="studentName"
@@ -186,26 +189,28 @@ const Students = () => {
                             </div>
 
                             <div className="mb-3">
+                              <label>Cnic</label>
                               <NewInput
                                 type="number"
                                 className="form-control"
-                                labelName="CNIC"
+                                // labelName="CNIC"
                                 value={studentData.cnic}
                                 onChange={(e) => handleInput(e)}
                                 name="cnic"
                               />
                             </div>
                             <div className="mb-3">
+                              <label>Address</label>
                               <NewInput
                                 type="text"
                                 className="form-control"
-                                labelName="Address"
+                                // labelName="Address"
                                 value={studentData.address}
                                 onChange={(e) => handleInput(e)}
                                 name="address"
                               />
                             </div>
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
                               <NewInput
                                 type="text"
                                 className="form-control"
@@ -214,14 +219,15 @@ const Students = () => {
                                 onChange={(e) => handleInput(e)}
                                 name="regId"
                               />
-                            </div>
+                            </div> */}
                           </div>
-                          <div className="col-lg-5 col-md-5 col-sm-12">
+                          <div className="col-lg-5 col-md-5 col-sm-12 text-start">
                             <div className="mb-3">
+                              <label>Father's Name</label>
                               <NewInput
                                 type="text"
                                 className="form-control"
-                                labelName="Father's Name"
+                                // labelName="Father's Name"
                                 value={studentData.father}
                                 onChange={(e) => handleInput(e)}
                                 name="father"
@@ -235,16 +241,17 @@ const Students = () => {
                                 name="files"
                               />
                             </div> */}
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
+                              <label>Age</label>
                               <NewInput
                                 type="number"
                                 className="form-control"
-                                labelName="Age"
+                                // labelName="Age"
                                 value={studentData.age}
                                 onChange={(e) => handleInput(e)}
                                 name="age"
                               />
-                            </div>
+                            </div> */}
                             <div className="mb-3">
                               {/* <NewInput
                 type="text"
@@ -256,19 +263,13 @@ const Students = () => {
                             </div>
                           </div>
                         </div>
-                        {updating ? (
-                          <button
-                            className="buttonload student_button"
-                            onClick={() => saveStudentUpdate(studentData.id)}
-                          >
-                            <i className="fa fa-spinner fa-spin"></i>Save
-                            Student Record
-                          </button>
-                        ) : (
-                          <button className="student_button">
+                     
+                      
+                    
+                          <button className="student_button" onClick={() => saveStudentUpdate(studentData.id)}>
                             Save Student Record
                           </button>
-                        )}
+                    
                       </form>
                     </>
                   ) : (

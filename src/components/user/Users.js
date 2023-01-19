@@ -15,7 +15,7 @@ const Users = (props) => {
     _handleStatus,
     isBlocked,
   } = props;
-  console.log(isBlocked, "testing");
+  // console.log(isBlocked, "testing");
   return (
     <>
       <tr>
