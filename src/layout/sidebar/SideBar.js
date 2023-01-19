@@ -44,7 +44,7 @@ const SideBar = () => {
       {
             isLogin &&
             <>
-        <div className={`${open ? "sidebar_items" : "sidebar_items_2"}`}>
+        <div className={`${!open ? "sidebar_items" : "sidebar_items_2"}`}>
           <div className="icons">
             <i
               className="fa-solid fa-angle-left"
@@ -58,7 +58,7 @@ const SideBar = () => {
               <Link to={e.path} key={idx}>
               <li>
                 {e.icon}
-                <span className={`${!open && "hidden"}`}>{e.title}</span>
+                <span className={`${open && "hidden"}`}>{e.title}</span>
               </li>
               </Link>
             ))

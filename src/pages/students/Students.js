@@ -1,6 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import Users from "../../components/user/Users";
+import { ToastContainer, toast } from "react-toastify";
 import StudentForm, {
   studentList,
 } from "../../components/studentform/StudentForm";
@@ -82,9 +83,18 @@ const Students = () => {
     axios
       .put(`https://dark-gray-agouti-kit.cyclic.app/api/student/${id}`, data)
       .then((resp) => {
-        console.log(resp.data.results);
-        // getStudentData();
-        // setStudentData(resp.data);
+        if(resp.data.success){
+          console.log(resp.data);
+          getStudentData();
+          setStudentData(resp.data);
+        }else{
+          setStudentForm(false);
+          toast.warning(`${resp.data.msg}`, {
+            position: "top-center",
+            autoClose: 2000,
+          });
+        }
+       
       })
       .catch((err) => console.log(err));
   };
@@ -199,17 +209,7 @@ const Students = () => {
                                 name="cnic"
                               />
                             </div>
-                            <div className="mb-3">
-                              <label>Address</label>
-                              <NewInput
-                                type="text"
-                                className="form-control"
-                                // labelName="Address"
-                                value={studentData.address}
-                                onChange={(e) => handleInput(e)}
-                                name="address"
-                              />
-                            </div>
+                          
                             {/* <div className="mb-3">
                               <NewInput
                                 type="text"
@@ -231,6 +231,17 @@ const Students = () => {
                                 value={studentData.father}
                                 onChange={(e) => handleInput(e)}
                                 name="father"
+                              />
+                            </div>
+                            <div className="mb-3">
+                              <label>Address</label>
+                              <NewInput
+                                type="text"
+                                className="form-control"
+                                // labelName="Address"
+                                value={studentData.address}
+                                onChange={(e) => handleInput(e)}
+                                name="address"
                               />
                             </div>
                             {/* <div className="mb-3">
@@ -329,6 +340,7 @@ const Students = () => {
           </div>
         </div>
       </section>
+      <ToastContainer />
     </>
   );
 };

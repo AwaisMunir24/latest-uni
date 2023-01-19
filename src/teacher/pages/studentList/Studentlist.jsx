@@ -23,6 +23,11 @@ const Studentlist = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-12">
+              <h5>Student Attendance </h5>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-12">
               <table className="table ">
                 <thead>
                   <tr>

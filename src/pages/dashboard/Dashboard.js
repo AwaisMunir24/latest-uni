@@ -20,7 +20,7 @@ const Dashboard = () => {
   
   return (
     <>
-      <section>
+      <section className="dashboard_wrapper">
         <div className="dashboard">
           <div className="container-fluid">
             <div className="row mb-3">

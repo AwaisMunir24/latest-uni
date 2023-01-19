@@ -39,28 +39,36 @@ const StudentForm = ({ getStudentData }) => {
     axios
       .post("https://dark-gray-agouti-kit.cyclic.app/api/student/signup", data)
       .then((resp) => {
-        console.log(resp, "student data added");
-        setStudentData(resp.data);
-        getStudentData();
+        if(resp.data.success){
+          console.log(resp, "student data added");
+          setStudentData(resp.data);
+          getStudentData();
+        }else{
+          toast.warning(`${resp.data.msg}`, {
+            position: "top-center",
+            autoClose: 2000,
+          });
+        }
+      
       })
       .catch((err) => {
         console.log(err);
       });
 
-    if (studentData.studentName === " " || studentData.father === " "||studentData.regId ==="") {
-      setMessage(true);
-      toast.warning("Student Data Not Added !", {
-        position: "top-center",
-        autoClose: 2000,
-      });
-    } else {
-      setMessage(false);
+    // if (studentData.studentName === " " || studentData.father === " "||studentData.regId ==="") {
+    //   setMessage(true);
+    //   toast.warning("Student Data Not Added !", {
+    //     position: "top-center",
+    //     autoClose: 2000,
+    //   });
+    // } else {
+    //   setMessage(false);
 
-      toast.success("Student Data Added Successfully !", {
-        position: "top-center",
-        autoClose: 2000,
-      });
-    }
+    //   toast.success("Student Data Added Successfully !", {
+    //     position: "top-center",
+    //     autoClose: 2000,
+    //   });
+    // }
 
     setStudentData({
       studentName: "",

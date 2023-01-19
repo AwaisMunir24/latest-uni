@@ -20,3 +20,12 @@ ul li {
 i{
     cursor: pointer;
 }
+.right_section , .teracher_right{
+    display: flex;
+    align-items: start;
+}
+
+section{
+    padding-top: 30px;
+    width: 100%;
+}

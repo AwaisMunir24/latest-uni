@@ -1,19 +1,15 @@
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import NewInput from "../newInput/Newinput";
-import {
-  gettingTeacherData,
-  postTeacherData,
-} from "../../controller/teacherData";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./TeacherForm.css";
-import awais from "../../assets/image/awais.jpg";
 
-const TeacherForm = ({getAllCourseList}) => {
+const TeacherForm = ({ getAllCourseList, getTeacherData }) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [images, setImages] = useState(null);
-  const[getCourse,setGetCourse]=useState("");
+  const [getCourse, setGetCourse] = useState("");
   const [postTeacher, setPostTeacher] = useState({
     _id: "",
     firstName: "",
@@ -47,35 +43,24 @@ const TeacherForm = ({getAllCourseList}) => {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((resp) => {
-        console.log(resp.data, "post teacher");
-        // return setPostTeacher(resp.data);
+        getTeacherData();
+
+        console.log(resp.data.data.success, "post teacher");
+        return setPostTeacher(resp.data);
       })
-      .catch((err) => console.log(err.response.data));
+      .catch((err) => {
+        console.log(err);
+      });
 
-    // setTimeout(() => {
-    //   setIsUpdating(false);
-    // }, 2000);
-
-    // if (teacherName == " " || teaherCnic == " "|| qualification =="" || course =="" || passcode=="" ||image=="") {
-    //   toast.warning("Teacher Data Not Added !", {
-    //     position: "top-center",
-    //     autoClose: 2000,
-    //   });
-    // } else {
-    //   toast.success("Teacher Data Added Successfully !", {
-    //     position: "top-center",
-    //     autoClose: 2000,
-    //   });
-
-    // }
-
-    // setFirstName("");
-    // setLastName("");
-    // setCnic("");
-
-    // setGender("");
-    // setGender("");
-    // setImage("");
+    setPostTeacher({
+      firstName: "",
+      lastName: "",
+      cnic: "",
+      gender: "",
+    });
+    setImages({
+      images: null,
+    });
   };
   const handleFileSelect = (e) => {
     let arr = e.target.files;
@@ -83,8 +68,7 @@ const TeacherForm = ({getAllCourseList}) => {
 
     setImages(arr[0]);
   };
-useEffect(() => {
-}, [])
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -138,17 +122,14 @@ useEffect(() => {
                 onChange={handleFileSelect}
                 name="files"
               /> */}
-              <input type="file" onChange={handleFileSelect} />
+              <input
+                type="file"
+                onChange={handleFileSelect}
+                className="form-control"
+              />
               {/* <input type="submit" value="Upload File" /> */}
             </div>
-            <div className="mb-4">
-             <select>
-              <option>Please select Course</option>
-              <option></option>
-             </select>
-             
-              
-            </div>
+
             <div className="mb-5">
               {/* <NewInput
                 type="text"

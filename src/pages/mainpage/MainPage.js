@@ -17,8 +17,9 @@ const MainPage = ({ isAdmin, setIsAdmin }) => {
   return (
     <Router>
       <Header isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
+      <div className="right_section">
       {user && <SideBar />}
-      <Routes>
+      <Routes >
         {user ? (
           <>
             <Route exact path="/dashboard" element={<Dashboard />} />
@@ -36,6 +37,7 @@ const MainPage = ({ isAdmin, setIsAdmin }) => {
           <Route path="/" element={<Login role={"Admin"} />} />
         )}
       </Routes>
+      </div>
     </Router>
   );
 };

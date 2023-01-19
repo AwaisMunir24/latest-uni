@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { BASE_URL } from "../../controller/config";
+import "./TeacherTable.css";
+import awii from "../../assets/image/awais.jpg";
 const TeacherTable = (props) => {
   const {
     id,
@@ -27,13 +29,17 @@ const TeacherTable = (props) => {
       <tr>
         <td>{idx}</td>
         <td>
-          <div>
-            <img
-              src={`${BASE_URL}${teacherprofile.url}`}
-              alt="image"
-              style={{ height: 50, width: 50, borderRadius: 50 }}
-              className="img-fluid"
-            />
+          <div className="image_profile">
+            {teacherprofile ? (
+              <img src={awii} alt="profile" className="img-fluid" />
+            ) : (
+              <img
+                src={`${BASE_URL}${teacherprofile.url}`}
+                alt="image"
+                style={{ height: 50, width: 50, borderRadius: 50 }}
+                className="img-fluid"
+              />
+            )}
           </div>
         </td>
         <td>

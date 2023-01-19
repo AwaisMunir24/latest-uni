@@ -15,7 +15,7 @@ const Course = () => {
     id: "",
     subjectId:"",
   });
-  console.log(courselisting, "courses");
+  // console.log(courselisting, "courses");
   function _handleCourseInput(e) {
     const newCoureData = { ...postCourse };
     newCoureData[e.target.name] = e.target.value;

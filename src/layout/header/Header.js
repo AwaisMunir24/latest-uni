@@ -2,8 +2,10 @@ import React, { Component, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { LoginTest } from "../../controller/Auth";
 import { RootContext } from "../../Routing/contextApi";
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 const Header = ({ isAdmin, setIsAdmin }) => {
+const   navigate=useNavigate();
   const [logedIn, setLogedIn] = useState(false);
   useEffect(() => {
     console.log("Check Test Case : ", LoginTest());
@@ -15,6 +17,14 @@ const Header = ({ isAdmin, setIsAdmin }) => {
     setUser(false);
   };
   const { user, setUser } = useContext(RootContext);
+
+  const _handleAdminToggle=()=>{
+    localStorage.clear();
+    
+    navigate('/')
+    setUser(false);
+
+  }
 
   return (
     <>
@@ -30,9 +40,25 @@ const Header = ({ isAdmin, setIsAdmin }) => {
             </div>
 
             <div className="col-lg-6 col-md-3 text-center d-flex justify-content-center ">
-              <div class="form-check form-switch text-center">
+              <div className="form-check form-switch">
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                  onClick={() =>{setIsAdmin(!isAdmin)} }
+                />
+                <label
+                  className="form-check-label label_tag"
+                  for="flexSwitchCheckDefault"
+                >
+                  {" "}
+                  {isAdmin ? "Admin" : "Teacher"}
+                </label>
+              </div>
+              {/* <div className="form-check form-switch text-center">
+                <input
+                  className="form-check-input"
                   type="checkbox"
                   role="switch"
                   onClick={() => {
@@ -45,7 +71,7 @@ const Header = ({ isAdmin, setIsAdmin }) => {
                 >
                   {isAdmin ? "Admin" : "Teacher"}
                 </label>
-              </div>
+              </div> */}
               <></>
             </div>
             {/* Umair  */}

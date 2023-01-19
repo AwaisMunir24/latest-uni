@@ -36,9 +36,14 @@ const Login = ({ role, setIsAuth }) => {
     axios
       .post("https://dark-gray-agouti-kit.cyclic.app/api/admin/login", data)
       .then((resp) => {
+       
         console.log(resp.data);
         if (resp.data.success) {
           localStorage.setItem("login", JSON.stringify(resp.data.results));
+          toast.success(" Login Success!", {
+            position: "top-right",
+            autoClose: 5000,
+          });
           // login
           setUser(resp.data.results);
           setIsAuth && setIsAuth(true);

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import './User.css'
 const Users = (props) => {
   const {
     id,
@@ -21,10 +22,9 @@ const Users = (props) => {
       <tr>
         <td>{idx}</td>
         <td>{studentName}</td>
-
         <td>{fatherName}</td>
         <td>{cnic}</td>
-        <td>{address}</td>
+        <td ><p className="address">{address}</p></td>
         <td>{age}</td>
         <td>{studentId}</td>
         <td>{password}</td>

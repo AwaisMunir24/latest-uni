@@ -1,5 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, useEffect ,useContext} from "react";
+import { RootContext } from "../../Routing/contextApi";
 const CourseAttendance = () => {
+  const { getCourseAtten } = useContext(RootContext);
+  console.log(getCourseAtten,"get course atttttttttt")
+  useEffect(() => {
+    
+  }, [])
+  
+
   return (
     <>
       <section>
@@ -16,6 +24,8 @@ const CourseAttendance = () => {
                   <thead>
                     <tr>
                       <th>Date</th>
+                      <th>Student Name</th>
+                      <th>Student Id</th>
                       <th className="text-end">Open </th>
                     </tr>
                   </thead>

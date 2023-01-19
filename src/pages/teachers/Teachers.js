@@ -208,7 +208,7 @@ const _handleFormTeacherSubmit=(e)=>{
                   role="tabpanel"
                   aria-labelledby="ex1-tab-1"
                 >
-                  <TeacherForm onSubmitTeacher={addTeacher} />
+                  <TeacherForm onSubmitTeacher={addTeacher} getTeacherData={getTeacherData}/>
                 </div>
                 <div
                   className="tab-pane fade"

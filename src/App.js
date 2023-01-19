@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className="main_div">
         <>
           {isAdmin && <MainPage isAdmin={isAdmin} setIsAdmin={setIsAdmin} />}
           {/* !isAdmin = Teacher  */}
