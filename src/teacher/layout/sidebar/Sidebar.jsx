@@ -25,8 +25,6 @@ const SidebarTeacher = () => {
   return (
     <>
      <div className="sidebar ">
-      {
-        isTeacherLogin && <>
          <div className={`${open ? "sidebar_items" : "sidebar_items_2"}`}>
           <div className="icons">
             <i
@@ -46,9 +44,6 @@ const SidebarTeacher = () => {
             ))}
           </ul>
         </div>
-        </>
-      }
-       
       </div>
     </>
   )

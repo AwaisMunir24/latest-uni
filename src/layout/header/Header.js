@@ -5,26 +5,14 @@ import { RootContext } from "../../Routing/contextApi";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
 const Header = ({ isAdmin, setIsAdmin }) => {
-const   navigate=useNavigate();
-  const [logedIn, setLogedIn] = useState(false);
-  useEffect(() => {
-    console.log("Check Test Case : ", LoginTest());
-    setLogedIn(LoginTest());
-  }, []);
-  const handleloginEvent = () => {
-    // setLogedIn(!logedIn);
-    localStorage.clear();
-    setUser(false);
-  };
+  const navigate = useNavigate();
   const { user, setUser } = useContext(RootContext);
 
-  const _handleAdminToggle=()=>{
-    localStorage.clear();
-    
-    navigate('/')
+  const handleloginEvent = () => {
     setUser(false);
-
-  }
+    localStorage.clear();
+    navigate("/");
+  };
 
   return (
     <>
@@ -46,7 +34,10 @@ const   navigate=useNavigate();
                   type="checkbox"
                   role="switch"
                   id="flexSwitchCheckDefault"
-                  onClick={() =>{setIsAdmin(!isAdmin)} }
+                  onClick={() => {
+                    handleloginEvent();
+                    setIsAdmin(!isAdmin);
+                  }}
                 />
                 <label
                   className="form-check-label label_tag"

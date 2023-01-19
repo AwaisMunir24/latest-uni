@@ -1,12 +1,14 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../../components/input/Input";
 import { ToastContainer, toast } from "react-toastify";
 
 import "./TeacherLogin.css";
+import { RootContext } from "../../../Routing/contextApi";
 const TeacherLogin = ({ role }) => {
   const navigate = useNavigate();
+  const { user, setUser } = useContext(RootContext);
 
   const [teacherLogin, setTeacherLogin] = useState({
     cnic: "",
@@ -26,13 +28,14 @@ const TeacherLogin = ({ role }) => {
             "Teacherlogin",
             JSON.stringify(resp.data.results)
           );
+          setUser(resp.data.results);
           navigate("/studentlist");
-        }else{
-            toast.warning(`${resp.data.msg}`, {
-              position: "top-center",
-              autoClose: 2000,
-            });
-          }
+        } else {
+          toast.warning(`${resp.data.msg}`, {
+            position: "top-center",
+            autoClose: 2000,
+          });
+        }
         console.log(resp.data);
       })
       .catch((err) => console.log(err));
@@ -81,7 +84,6 @@ const TeacherLogin = ({ role }) => {
         </form>
       </section>
       <ToastContainer />
-
     </>
   );
 };

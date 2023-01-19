@@ -36,7 +36,6 @@ const Login = ({ role, setIsAuth }) => {
     axios
       .post("https://dark-gray-agouti-kit.cyclic.app/api/admin/login", data)
       .then((resp) => {
-       
         console.log(resp.data);
         if (resp.data.success) {
           localStorage.setItem("login", JSON.stringify(resp.data.results));
@@ -46,7 +45,6 @@ const Login = ({ role, setIsAuth }) => {
           });
           // login
           setUser(resp.data.results);
-          setIsAuth && setIsAuth(true);
           navigate("/dashboard");
         } else {
           toast.warning(`${resp.data.msg}`, {
