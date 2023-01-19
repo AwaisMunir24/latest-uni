@@ -19,7 +19,6 @@ const Teachers = () => {
     cnic: "",
     gender: "",
   });
-
   const [putData, setPutData] = useState({
     teacher: "",
     course: "",
