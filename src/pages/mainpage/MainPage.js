@@ -13,30 +13,33 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const MainPage = ({ isAdmin, setIsAdmin }) => {
   const { user } = useContext(RootContext);
-  console.log("user: ", user);
+
+  const handleTogleUser = (value) => {
+    setIsAdmin(value);
+  };
   return (
     <Router>
-      <Header isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
+      <Header isAdmin={isAdmin} setIsAdmin={handleTogleUser} />
       <div className="right_section">
-      {user && <SideBar />}
-      <Routes >
-        {user ? (
-          <>
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            <Route exact path="/students" element={<Students />} />
-            <Route exact path="/teachers" element={<Teachers />} />
-            <Route exact path="/course" element={<Course />} />
-            <Route exact path="/report" element={<Report />} />
-            <Route
-              exact
-              path="/courseattendance"
-              element={<CourseAttendance />}
-            />
-          </>
-        ) : (
-          <Route path="/" element={<Login role={"Admin"} />} />
-        )}
-      </Routes>
+        {user && <SideBar />}
+        <Routes>
+          {user ? (
+            <>
+              <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route exact path="/students" element={<Students />} />
+              <Route exact path="/teachers" element={<Teachers />} />
+              <Route exact path="/course" element={<Course />} />
+              <Route exact path="/report" element={<Report />} />
+              <Route
+                exact
+                path="/courseattendance"
+                element={<CourseAttendance />}
+              />
+            </>
+          ) : (
+            <Route path="/" element={<Login role={"Admin"} />} />
+          )}
+        </Routes>
       </div>
     </Router>
   );

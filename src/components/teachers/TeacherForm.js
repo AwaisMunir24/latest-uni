@@ -28,39 +28,51 @@ const TeacherForm = ({ getAllCourseList, getTeacherData }) => {
 
   const handleTeacher = (e) => {
     e.preventDefault();
-    let data = JSON.stringify({
-      firstName: postTeacher.firstName,
-      lastName: postTeacher.lastName,
-      cnic: postTeacher.cnic,
-      gender: postTeacher.gender,
-    });
-    console.log(images);
-    const formData = new FormData();
-    formData.append("image", images, images?.name);
-    formData.append("data", data);
-    axios
-      .post(url, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then((resp) => {
-        getTeacherData();
-
-        console.log(resp.data.data.success, "post teacher");
-        return setPostTeacher(resp.data);
-      })
-      .catch((err) => {
-        console.log(err);
+    if(postTeacher.cnic.length >= 13 && ( postTeacher.gender.includes("MALE") || postTeacher.gender.includes("FEMALE"))) {
+      let data = JSON.stringify({
+        firstName: postTeacher.firstName,
+        lastName: postTeacher.lastName,
+        cnic: postTeacher.cnic,
+        gender: postTeacher.gender,
       });
-
-    setPostTeacher({
-      firstName: "",
-      lastName: "",
-      cnic: "",
-      gender: "",
-    });
-    setImages({
-      images: null,
-    });
+      console.log(images);
+      const formData = new FormData();
+      formData.append("image", images, images?.name);
+      formData.append("data", data);
+      axios
+        .post(url, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((resp) => {
+          getTeacherData();
+          console.log(resp.data.success, "post teacher");
+          
+          // return setPostTeacher(resp.data);
+          if(resp.data.success === true) {
+            console.log("Shoaib")
+            toast.success(resp.data.data.message);
+          }
+          else {
+            toast.error(resp.data.data.message);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  
+      setPostTeacher({
+        firstName: "",
+        lastName: "",
+        cnic: "",
+        gender: "",
+      });
+      setImages({
+        images: null,
+      });
+    }
+    else {
+      toast.error("CNIC or Gender Incorrect");
+    }
   };
   const handleFileSelect = (e) => {
     let arr = e.target.files;

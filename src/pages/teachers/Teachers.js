@@ -136,27 +136,33 @@ const Teachers = () => {
         setGetCourse(resp?.data.data);
       })
       .catch((err) => console.log(err));
-  };
-  var data={
+  };``
+  var data = {
     firstName: postTeacher.firstName,
     lastName: postTeacher.lastName,
     cnic: postTeacher.cnic,
-    gender:postTeacher.gender
-  }
+    gender: postTeacher.gender,
+  };
   const _handleSaveTeacher = (id) => {
-    console.log(id,"update");
-    axios.put(`https://dark-gray-agouti-kit.cyclic.app/api/teacher/update/${id}`,data).then((resp)=>{
-      console.log(resp.data);
-      getTeacherData();
-    }).catch((err)=>console.log(err))
+    console.log(id, "update");
+    axios
+      .put(
+        `https://dark-gray-agouti-kit.cyclic.app/api/teacher/update/${id}`,
+        data
+      )
+      .then((resp) => {
+        console.log(resp.data);
+        getTeacherData();
+      })
+      .catch((err) => console.log(err));
   };
   useEffect(() => {
     getCourseData();
   }, []);
   // console.log(getCourse, "get course");
-const _handleFormTeacherSubmit=(e)=>{
-  e.preventDefault();
-}
+  const _handleFormTeacherSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <>
       <>
@@ -208,7 +214,10 @@ const _handleFormTeacherSubmit=(e)=>{
                   role="tabpanel"
                   aria-labelledby="ex1-tab-1"
                 >
-                  <TeacherForm onSubmitTeacher={addTeacher} getTeacherData={getTeacherData}/>
+                  <TeacherForm
+                    onSubmitTeacher={addTeacher}
+                    getTeacherData={getTeacherData}
+                  />
                 </div>
                 <div
                   className="tab-pane fade"
@@ -225,54 +234,55 @@ const _handleFormTeacherSubmit=(e)=>{
                           </div>
                         </div>
                         <div className="row justify-content-center mt-3">
-                        <form onSubmit={_handleFormTeacherSubmit}>
-                          <div className="col-lg-5 col-md-5 col-sm-12">
-                            <div className="mb-4">
-                              <label>First Name</label>
-                              <NewInput
-                                type="text"
-                                name="firstName"
-                                className="form-control"
-                                value={postTeacher?.firstName}
-                                onChange={(e) => handleInput(e)}
-                              />
+                          <form onSubmit={_handleFormTeacherSubmit}>
+                            <div className="col-lg-5 col-md-5 col-sm-12">
+                              <div className="mb-4">
+                                <label>First Name</label>
+                                <NewInput
+                                  type="text"
+                                  name="firstName"
+                                  className="form-control"
+                                  value={postTeacher?.firstName}
+                                  onChange={(e) => handleInput(e)}
+                                />
+                              </div>
+                              <div className="mb-4">
+                                <label>Cnic</label>
+                                <NewInput
+                                  type="number"
+                                  className="form-control"
+                                  value={postTeacher?.cnic}
+                                  onChange={(e) => handleInput(e)}
+                                  name="cnic"
+                                />
+                              </div>
+                              <div className="mb-4">
+                                <label>Qualification</label>
+                                <NewInput
+                                  type="text"
+                                  className="form-control"
+                                  value={postTeacher?.lastName}
+                                  onChange={(e) => handleInput(e)}
+                                  name="lastName"
+                                />
+                              </div>
+                              <div className="mb-4">
+                                <label> Gender</label>
+                                <NewInput
+                                  type="text"
+                                  className="form-control"
+                                  value={postTeacher?.gender}
+                                  onChange={(e) => handleInput(e)}
+                                  name="gender"
+                                />
+                              </div>
                             </div>
-                            <div className="mb-4">
-                              <label>Cnic</label>
-                              <NewInput
-                                type="number"
-                                className="form-control"
-                                value={postTeacher?.cnic}
-                                onChange={(e) => handleInput(e)}
-                                name="cnic"
-                              />
-                            </div>
-                            <div className="mb-4">
-                              <label>Qualification</label>
-                              <NewInput
-                                type="text"
-                                className="form-control"
-                                value={postTeacher?.lastName}
-                                onChange={(e) => handleInput(e)}
-                                name="lastName"
-                              />
-                            </div>
-                            <div className="mb-4">
-                              <label> Gender</label>
-                              <NewInput
-                                type="text"
-                                className="form-control"
-                                value={postTeacher?.gender}
-                                onChange={(e) => handleInput(e)}
-                                name="gender"
-                              />
-                            </div>
-                          </div>
-                        </form>
+                          </form>
                         </div>
                         <button
-                          className="teacher_button" type="submit"
-                          onClick={()=>_handleSaveTeacher(postTeacher.id)}
+                          className="teacher_button"
+                          type="submit"
+                          onClick={() => _handleSaveTeacher(postTeacher.id)}
                         >
                           Save Teacher Data
                         </button>

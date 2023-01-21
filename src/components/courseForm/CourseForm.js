@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import "./CourseForm.css";
 
 const CourseForm = ({ getApiCourse }) => {
+  const [error,setError] = useState(false)
+
   const [postCourse, setPostCourse] = useState({
     name: "",
     subCode: "",
@@ -31,37 +33,29 @@ const CourseForm = ({ getApiCourse }) => {
   const handleCourse = (e) => {
     e.preventDefault();
     console.log(postCourse, "hello");
-
-    axios
-      .post(url, data)
-      .then((resp) => {
-        console.log(resp.data, "course api called");
-        setPostCourse(resp.data);
-        getApiCourse();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    if (
-      postCourse.name === " " ||
-      postCourse.subCode === " " ||
-      postCourse.creditHours === ""
-    ) {
-      toast.warning("Course Data Not Added !", {
-        position: "top-center",
-        autoClose: 2000,
-      });
-    } else {
-      toast.success("Course Data Added Successfully !", {
-        position: "top-center",
-        autoClose: 2000,
+    if( postCourse.name.trim() == "" || postCourse.subCode.trim() == "" )
+    {
+      toast.error("Please fill all the fields");
+      setError(true)
+    }
+    if(error === true) {
+      
+      axios
+        .post(url, data)
+        .then((resp) => {
+          console.log(resp.data, "course api called");
+          setPostCourse(resp.data);
+          getApiCourse();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setPostCourse({
+        name: "",
+        subCode: "",
+        creditHours: "",
       });
     }
-    setPostCourse({
-      name: "",
-      subCode: "",
-      creditHours: "",
-    });
   };
 
   return (

@@ -9,7 +9,6 @@ const AbsStudentList = (props) => {
             <td>{studentName}</td>
             <td>{courseName}</td>
             <td>{subjectName}</td>
-            <td>{attandance}</td>
         </tr>
     
     </>

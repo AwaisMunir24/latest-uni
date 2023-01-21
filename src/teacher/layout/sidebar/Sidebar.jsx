@@ -7,15 +7,16 @@ const SidebarTeacher = () => {
     const [open, setOpen] = useState(true);
     const Menus = [
       {
-        title: "Student Attendance",
-        icon: <i className="fa-solid fa-boxes-stacked"></i>,
-        path: "studentlist",
-      },
-      {
         title: "Courses",
        icon: <i className="fa-solid fa-chalkboard-user"></i>,
         path: "courselist",
       },
+      {
+        title: "Student Attendance",
+        icon: <i className="fa-solid fa-boxes-stacked"></i>,
+        path: "studentlist",
+      },
+    
     
     ];
     useEffect(() => {
@@ -25,8 +26,6 @@ const SidebarTeacher = () => {
   return (
     <>
      <div className="sidebar ">
-      {
-        isTeacherLogin && <>
          <div className={`${open ? "sidebar_items" : "sidebar_items_2"}`}>
           <div className="icons">
             <i
@@ -46,9 +45,6 @@ const SidebarTeacher = () => {
             ))}
           </ul>
         </div>
-        </>
-      }
-       
       </div>
     </>
   )

@@ -13,10 +13,9 @@ const Report = () => {
   const _handleBackPage = () => {
     setTooglePage(!tooglePage);
   };
-  const _handleBack=()=>{
+  const _handleBack = () => {
     setTooglePage(!tooglePage);
-
-  }
+  };
   const _handleAttendance = (id) => {
     console.log(id, "resport course id called");
     setTooglePage(!tooglePage);
@@ -94,9 +93,16 @@ const Report = () => {
               <div className="row">
                 <div className="col-lg-12">
                   <h4>Course Attendance</h4>
-                  <i className="fas fa-angle-left" onClick={_handleBackPage}></i>
-                 
+                  <i
+                    className="fas fa-angle-left"
+                    onClick={_handleBackPage}
+                  ></i>
                 </div>
+              </div>
+              <div className="row justify-content-center">
+              <div className="col-lg-3">
+                  <input className="form-control" type="date"/>
+              </div>
               </div>
               <div className="row">
                 <div className="col-lg-12">
@@ -106,30 +112,25 @@ const Report = () => {
                         <th>Date</th>
                         <th>Student Name</th>
                         <th>Student Id</th>
-                        <th className="text-center">Go back </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {
-                        attendance.length>0 ?(
-                          attendance.map((e, idx) => {
-                            return (
-                              <CourseAttendanceTable
-                                key={idx}
-                                date={e.createdAt}
-                                studentName={e.student.firstName}
-                                regId={e.student.regNumber}
-                                _handleBackPage={()=>_handleBackPage()}
-                              />
-                            )
-                          })
-                        ):<tr ><td colSpan={3}>Nothing to Show</td>
-                         <td colSpan={2} className="text-center"> <i className="fas fa-angle-left" onClick={_handleBack}></i></td>
+                      {attendance.length > 0 ? (
+                        attendance.map((e, idx) => {
+                          return (
+                            <CourseAttendanceTable
+                              key={idx}
+                              date={e.createdAt}
+                              studentName={e.student.firstName}
+                              regId={e.student.regNumber}
+                            />
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={4}>Nothing to Show</td>
                         </tr>
-                      }
-
-
-                     
+                      )}
                     </tbody>
                   </table>
                 </div>

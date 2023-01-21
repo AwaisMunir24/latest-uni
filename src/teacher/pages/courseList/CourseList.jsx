@@ -10,7 +10,7 @@ const CourseList = () => {
     axios
       .get("https://dark-gray-agouti-kit.cyclic.app/api/course")
       .then((resp) => {
-        console.log(resp.data.data);
+        // console.log(resp.data.data);
         setCourseList(resp.data.data);
       })
       .catch((err) => console.log(err));
