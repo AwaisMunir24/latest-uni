@@ -29,7 +29,11 @@ const TeacherLogin = ({ role }) => {
             JSON.stringify(resp.data.results)
           );
           setUser(resp.data.results);
+<<<<<<< HEAD
           navigate("/courselist");
+=======
+          navigate("/studentlist");
+>>>>>>> bf7394f49ce24a8679497cd82c8196f6943f889d
         } else {
           toast.warning(`${resp.data.msg}`, {
             position: "top-center",
